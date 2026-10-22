@@ -10,7 +10,7 @@ const root=new URL('..',import.meta.url), source=readFileSync(new URL('../FleetP
 const routes=[...source.slice(source.indexOf('const NAV = ['),source.indexOf('// TRANSFER WORKFLOW MODAL')).matchAll(/id: "([^"]+)", label: "([^"]+)"/g)].map(([,id,label])=>({id,label})).concat({id:'utenti',label:'Utenti & Permessi'});
 const groups=[...source.slice(source.indexOf('const NAV_STRUCTURE = ['),source.indexOf('function NewRecordButton')).matchAll(/group: "[^"]+", label: "([^"]+)"/g)].map(m=>m[1]);
 const directory=mkdtempSync(join(tmpdir(),'fleet-ui-')), port=42000+Math.floor(Math.random()*5000), origin=`http://localhost:${port}`;
-const env={...process.env,FLEET_DATA_DIR:directory,PORT:String(port),FLEET_ORIGIN:origin,FLEET_COOKIE_SECURE:'false',FLEET_ADMIN_USER:'uiadmin',FLEET_ADMIN_PASSWORD:'UI-private-test-passphrase',FLEET_COMPANY_ID:'matherion',FLEET_COMPANY_NAME:'Matherion S.r.l.'};
+const env={...process.env,HOST:'127.0.0.1',FLEET_DATA_DIR:directory,PORT:String(port),FLEET_ORIGIN:origin,FLEET_COOKIE_SECURE:'false',FLEET_ADMIN_USER:'uiadmin',FLEET_ADMIN_NAME:'Amministratore',FLEET_ADMIN_EMAIL:'',FLEET_ADMIN_PASSWORD:'UI-private-test-passphrase',FLEET_COMPANY_ID:'matherion',FLEET_COMPANY_NAME:'Matherion S.r.l.'};
 let server,dom,w,cookie='',errors=[],downloads=[];
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const button=(label,scope=w.document)=>[...scope.querySelectorAll('button')].find(b=>b.textContent.trim()===label);
