@@ -33,8 +33,11 @@ const policy={tires:'pneumatici',vehicles:'flotta',contracts:'contratti',deadlin
 function profile(row) {return row ? JSON.parse(row.profile) : null;}
 function can(u,key,edit=false) {return u.role==='super_admin' || (key==='cookieConsent') || (edit ? u.permissions?.[policy[key]]==='edit' : ['edit','view'].includes(u.permissions?.[policy[key]]));}
 function checkPassword(p) {if(typeof p!=='string'||p.length<12||p.length>256) throw new Error('La password deve contenere da 12 a 256 caratteri');}
-if(process.argv.includes('--bootstrap')) {
- if(db.prepare('SELECT count(*) n FROM users').get().n) throw new Error('Installazione già inizializzata');
+if(process.argv.includes('--bootstrap') || process.argv.includes('--bootstrap-if-empty')) {
+ if(db.prepare('SELECT count(*) n FROM users').get().n) {
+  if(process.argv.includes('--bootstrap-if-empty')) {console.log('Installazione già inizializzata: account invariati.'); db.close(); process.exit(0);}
+  throw new Error('Installazione già inizializzata');
+ }
  const username=process.env.FLEET_ADMIN_USER, password=process.env.FLEET_ADMIN_PASSWORD, tenant=process.env.FLEET_COMPANY_ID || 'matherion';
  if(!username) throw new Error('Impostare FLEET_ADMIN_USER'); checkPassword(password);
  const id=randomBytes(16).toString('hex');
