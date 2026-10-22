@@ -7,7 +7,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 const dir=mkdtempSync(join(tmpdir(),'fleet-test-'));
 const port=32000+Math.floor(Math.random()*10000), origin=`http://localhost:${port}`;
-const env={...process.env,HOST:'0.0.0.0',FLEET_DATA_DIR:dir,FLEET_ADMIN_USER:'admin',FLEET_ADMIN_PASSWORD:'A-secure-test-passphrase-2026',FLEET_COMPANY_ID:'tenant-a',FLEET_ORIGIN:'',RENDER_EXTERNAL_URL:origin,FLEET_COOKIE_SECURE:'false',PORT:String(port)};
+const env={...process.env,HOST:'0.0.0.0',FLEET_DATA_DIR:dir,FLEET_ADMIN_USER:'admin',FLEET_ADMIN_NAME:'Amministratore',FLEET_ADMIN_EMAIL:'',FLEET_ADMIN_PASSWORD:'A-secure-test-passphrase-2026',FLEET_COMPANY_ID:'tenant-a',FLEET_COMPANY_NAME:'Test Company',FLEET_ORIGIN:'',RENDER_EXTERNAL_URL:origin,FLEET_COOKIE_SECURE:'false',PORT:String(port)};
 let server,cookie;
 async function call(path,method='GET',data,session=cookie,requestOrigin=origin){const r=await fetch(origin+path,{method,headers:{...(session?{Cookie:session}:{}),Origin:requestOrigin,'Content-Type':'application/json',...(['PUT','DELETE'].includes(method)&&path!=='/api/store/users'?{'X-Fleet-Version':String((await call(path,'GET',undefined,session)).body.version||0)}:{})},...(data===undefined?{}:{body:JSON.stringify(data)})});return {status:r.status,body:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0],rawCookie:r.headers.get('set-cookie')};}
 before(async()=>{
