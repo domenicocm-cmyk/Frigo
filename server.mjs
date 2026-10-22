@@ -51,10 +51,11 @@ function send(res,status,body,headers={}) {res.writeHead(status,{'Content-Type':
 async function json(req) {let b='';for await(const chunk of req){b+=chunk;if(Buffer.byteLength(b)>8*1024*1024) throw new Error('Richiesta troppo grande');}return b?JSON.parse(b):{};}
 const docModules={veicolo:'flotta',contratto:'contratti',sinistro:'sinistri',partner:'partner',verbale:'verbali',manutenzione:'manutenzione',cisterna:'cisterne',utente:'utenti'};
 function docCan(u,doc,edit=false){const module=docModules[doc.entityType];return !!module&&(u.role==='super_admin'||(edit?u.permissions?.[module]==='edit':['view','edit'].includes(u.permissions?.[module])));}
-const origin=process.env.FLEET_ORIGIN || 'http://localhost:3000';
+const origin=(process.env.FLEET_ORIGIN || process.env.RENDER_EXTERNAL_URL || 'http://localhost:3000').replace(/\/+$/, '');
 const server=http.createServer(async(req,res)=>{
  try {
   const url=new URL(req.url,origin), path=url.pathname;
+  if(path==='/healthz' && ['GET','HEAD'].includes(req.method)){db.prepare('SELECT 1').get();return send(res,200,{ok:true});}
   if(path.startsWith('/api/')) {
    if(!['GET','HEAD'].includes(req.method) && req.headers.origin!==origin) return send(res,403,{error:'Origine della richiesta non consentita'});
    if(path==='/api/auth/login' && req.method==='POST') {
@@ -159,4 +160,5 @@ const server=http.createServer(async(req,res)=>{
   res.writeHead(200,{'Content-Type':types[extname(target)]||'application/octet-stream','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','X-Frame-Options':'DENY'});res.end(readFileSync(target));
  }catch(e){console.error('Richiesta fallita:',e.message);if(!res.headersSent)send(res,400,{error:'Richiesta non valida o operazione non completata'});else res.end();}
 });
-server.listen(Number(process.env.PORT||3000),'127.0.0.1',()=>console.log('Fleet OS in ascolto su 127.0.0.1:'+ (process.env.PORT||3000)));
+const host=process.env.HOST || '127.0.0.1';
+server.listen(Number(process.env.PORT||3000),host,()=>console.log('Fleet OS in ascolto su '+host+':'+ (process.env.PORT||3000)));

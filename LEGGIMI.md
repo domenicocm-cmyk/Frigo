@@ -56,7 +56,7 @@ Prima revisione degli elementi comuni: dashboard con azioni rapide, palette teal
 
 ## Verifiche e limiti
 
-`npm test`: test API per accessi anonimi, origine delle richieste, credenziali, cookie, sola lettura, gestione utenze, persistenza, conflitti, conferma password, allegati e logout. `npm run build`: compilazione della piattaforma. Sono stati eseguiti 82 test automatici, inclusi navigazione delle 38 sezioni, flussi UI in DOM simulato, Excel, backup e ripristino; vedere RAPPORTO_COLLAUDO.md. Il browser Chromium non era disponibile: nessuna verifica visiva completa su dispositivi reali è stata eseguita.
+`npm test`: test API per accessi anonimi, origine delle richieste, credenziali, cookie, sola lettura, gestione utenze, persistenza, conflitti, conferma password, allegati e logout. `npm run build`: compilazione della piattaforma. Sono stati eseguiti 83 test automatici, inclusi navigazione delle 38 sezioni, flussi UI in DOM simulato, Excel, backup e ripristino; vedere RAPPORTO_COLLAUDO.md. Il browser Chromium non era disponibile: nessuna verifica visiva completa su dispositivi reali è stata eseguita.
 
 Questa revisione non equivale a un collaudo di tutti i processi aziendali. Il sorgente originale contiene moduli e cataloghi dimostrativi; integrazioni email, OCR, SharePoint, scambi fra società autonome e altri servizi richiedono collegamenti e prove specifiche. Nessuna email viene spedita da questo server. Le eliminazioni di record identificati da ID vengono ora registrate dal server e il registro sopravvive al riavvio.
 
@@ -83,3 +83,8 @@ FLEET_COOKIE_SECURE=false npm start
 `FLEET_COOKIE_SECURE=false` serve soltanto al collaudo locale via HTTP. Non rieseguire il bootstrap: utenti e dati esistenti restano nel database. Il server aggiunge automaticamente la tabella di audit se manca. La nuova revisione salva anche i pneumatici e rimuove i vecchi comandi di azzeramento dell’archivio dimostrativo dalla pagina Backup.
 
 Supabase e OneDrive saranno quelli del cliente finale e non vengono configurati da questo pacchetto. L’esportazione Excel manuale è collaudata; la pianificazione automatica, l’esportazione selettiva richiesta dai clienti e il collegamento documentale OneDrive non sono ancora implementati o verificati in un ambiente cliente.
+
+
+## Pubblicazione online
+
+Vedere `PUBBLICAZIONE_RENDER.md` e `render.yaml`. Il pacchetto è predisposto per un Web Service Render con disco persistente a pagamento. Nessun servizio è stato creato o pubblicato automaticamente.

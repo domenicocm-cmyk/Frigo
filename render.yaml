@@ -1,0 +1,28 @@
+# Apply this blueprint only when ready to create a paid web service and disk.
+# GitHub repository root must contain package.json, server.mjs and this file.
+services:
+  - type: web
+    name: matherion-fleet-os
+    runtime: node
+    region: frankfurt
+    plan: starter
+    buildCommand: npm ci --include=dev && npm test && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 24.22.1
+      - key: HOST
+        value: 0.0.0.0
+      - key: FLEET_DATA_DIR
+        value: /var/data
+      - key: FLEET_COOKIE_SECURE
+        value: "true"
+      - key: FLEET_COMPANY_ID
+        value: matherion
+      - key: FLEET_COMPANY_NAME
+        value: Matherion S.r.l.
+    disk:
+      name: fleet-data
+      mountPath: /var/data
+      sizeGB: 1

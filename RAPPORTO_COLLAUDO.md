@@ -4,14 +4,14 @@ Data: 22 ottobre 2026. Revisione locale successiva alla correzione del menu Soci
 
 ## Esito
 
-**82 test eseguiti, 82 superati, 0 falliti, 0 annullati, 0 saltati. Compilazione di produzione riuscita.**
+**83 test eseguiti, 83 superati, 0 falliti, 0 annullati, 0 saltati. Compilazione di produzione riuscita.**
 
 | Gruppo | Test | Esito |
 |---|---:|---|
-| API, sicurezza applicativa, persistenza, concorrenza e riavvio | 28 | Superati |
+| API, sicurezza applicativa, persistenza, concorrenza e riavvio | 29 | Superati |
 | Regressioni menu società e valori iniziali | 3 | Superati |
 | Interfaccia: apertura sezioni e flussi operativi | 51 | Superati |
-| Totale | 82 | Superati |
+| Totale | 83 | Superati |
 
 I 51 test di interfaccia comprendono l’apertura delle 38 sezioni e 13 prove di flusso: inserimento veicolo, aggiornamento dashboard, blocco campi obbligatori, creazione contratto, pneumatici, scadenze, file Excel, esportazione backup, ripristino, allegati, eliminazione con password e audit, creazione utenza e accesso in sola lettura.
 
@@ -126,3 +126,7 @@ Il backup applicativo JSON esclude utenti, hash e sessioni. Per il ripristino de
 - UI deletion requires password and remains in server audit (1127.237131ms)
 - UI administrator creates a real read-only account (988.24718ms)
 - UI logout and read-only login hide mutation controls including attachments (1332.679285ms)
+
+## Verifica della predisposizione Render
+
+Aggiunto controllo `/healthz` senza credenziali e verificato il server con bind `0.0.0.0`. La suite completa aggiornata ha superato 83 test. Dopo aver aggiunto la lettura automatica di `RENDER_EXTERNAL_URL`, è stata verificata nuovamente la suite API (29 test, tutti superati). Non è stato creato un servizio remoto e non è stato eseguito un collaudo online. Il nuovo test è: health check disponibile senza esporre dati o richiedere credenziali.
