@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{color-scheme:light;font-family:Inter,"Segoe UI",system-ui,sans-serif;font-synthesis:none}
+body{margin:0;color:#183744;background:#f1f6f8}
+button,input,select,textarea{font:inherit}
+button,[role=button],a,input,select,textarea{outline-offset:3px}
+:focus-visible{outline:3px solid #219ab7}
+main{background:radial-gradient(ellipse at top right,#dff1f6 0,transparent 48%),#f3f7f9}
+main h1{letter-spacing:-.035em}
+main table th{font-size:11px;letter-spacing:.035em}
+main tbody tr:hover{background:#f0f9fb}
+main input,main select,main textarea{min-height:40px}
+main button{transition:background-color .15s,box-shadow .15s,transform .15s}
+main button:active{transform:translateY(1px)}
+@media(max-width:767px){button{min-height:44px} main table{font-size:13px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
